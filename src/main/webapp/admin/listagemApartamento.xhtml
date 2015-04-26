@@ -1,0 +1,118 @@
+<ui:composition template="/template/layoutExterno.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Hotel</ui:define>
+
+	<ui:define name="menu_interno">
+		<ui:include src="/template/menuAdmin.xhtml" />
+	</ui:define>
+
+	<ui:define name="corpo">
+		<p:panel header="Listagem de Apartamento" id="panel">
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:commandButton value="Novo" id="botaoNovo"
+						action="cadastroApartamento.xhtml" />
+				</p:toolbarGroup>
+			</p:toolbar>
+			<h:form id="form">
+				<p:growl id="msg" showDetail="true" autoUpdate="true" />
+				<p:dataTable widgetVar="dataTableWidgetVar" id="tabelaApart"
+					var="apartamento" value="#{pesquisaApartamentoBean.apartamentos}"
+					editable="true" paginator="true" rows="5"
+					rowKey="#{apartamento.id}" cellspacing="0" cellpadding="2"
+					emptyMessage="Nenhum Apartamento encontrado!"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,20,30,40,50,100"
+					sortBy="#{apartamento.numero}">
+					<f:facet name="header">
+Lista de Apartamentos
+</f:facet>
+					<p:column headerText="Id.">
+						<h:outputText value="#{apartamento.id}" id="id" />
+					</p:column>
+					<p:column headerText="Número" sortBy="#{apartamento.numero}">
+						<h:outputText value="#{apartamento.numero}" id="numero" />
+					</p:column>
+					<p:column headerText="Tipo" sortBy="#{apartamento.tipo}">
+						<h:outputText value="#{apartamento.tipo}" />
+					</p:column>
+					<p:column headerText="Cama" sortBy="#{apartamento.cama}">
+						<h:outputText value="#{apartamento.cama}" />
+					</p:column>
+					<p:column headerText="Valor" sortBy="#{apartamento.valor}">
+						<h:outputText value="#{apartamento.valor}">
+							<f:convertNumber pattern="¤ #,##0.00" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Ação" exportable="false">
+
+						<p:button outcome="cadastroApartamento" icon="ui-icon-pencil"
+							title="Editar">
+							<f:param name="apartamento" value="#{apartamento.id}" />
+						</p:button>
+
+						<p:commandButton icon="ui-icon-trash" title="Excluir"
+							oncomplete="confirmacaoExclusao.show()" process="@this"
+							update=":form:tabelaApart"
+							action="#{pesquisaApartamentoBean.excluir()}">
+							<p:confirm header="Exclusão de Apartamento"
+								message="Deseja excluir o apartamento ?" icon="ui-icon-alert" />
+							<f:setPropertyActionListener
+								target="#{pesquisaApartamentoBean.apartamentoSelecionado}"
+								value="#{apartamento}" />
+						</p:commandButton>
+					</p:column>
+
+					<f:facet name="footer">
+Existem #{pesquisaApartamentoBean.apartamentos.size()} apartamentos cadastrados.
+
+<p:separator />
+
+
+						<p:commandLink ajax="false">
+							<p:graphicImage library="images" name="pdf.png"
+								title="Gerar em PDF" />
+							<p:dataExporter type="pdf" target="tabelaApart" encoding="UTF-8"
+								fileName="apartamentos" />
+						</p:commandLink>
+
+
+						<p:commandLink ajax="false">
+							<p:graphicImage library="images" name="csv.png"
+								title="Gerar em CSV" />
+							<p:dataExporter type="csv" target="tabelaApart" encoding="UTF-8"
+								fileName="apartamentos" />
+						</p:commandLink>
+
+						<p:commandLink ajax="false">
+							<p:graphicImage library="images" name="excel.png"
+								title="Gerar em Excel" />
+							<p:dataExporter type="xls" target="tabelaApart" encoding="UTF-8"
+								fileName="apartamentos" />
+						</p:commandLink>
+
+
+
+					</f:facet>
+				</p:dataTable>
+
+				<p:confirmDialog global="true" showEffect="fade"
+					widgetVar="confirmacaoExclusao">
+					<p:commandButton value="Sim" type="button"
+						onclick="confirmacaoExclusao.hide()"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
+						update=":form:tabelaApart" />
+					<p:commandButton value="Não" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+
+			</h:form>
+		</p:panel>
+	</ui:define>
+
+</ui:composition>

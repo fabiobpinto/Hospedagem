@@ -1,0 +1,42 @@
+<ui:composition template="/template/layoutExterno.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Hotel</ui:define>
+
+	<ui:define name="menu_interno">
+		<ui:include src="/template/menuPublico.xhtml" />
+	</ui:define>
+
+	<ui:define name="corpo">
+		<div class="container">
+			<h1>Quartos</h1>
+			<p:dataTable widgetVar="dataTableWidgetVar" id="tabelaApart"
+				var="apart" value="#{pesquisaApartamentoBean.apartamentos}"
+				editable="true" rowKey="#{apart.id}" cellspacing="0" cellpadding="2"
+				emptyMessage="Nenhum Apartamento encontrado!"
+				sortBy="#{apart.numero}">
+				<p:column headerText="Número">
+					<h:outputText value="#{apart.numero}" />
+				</p:column>
+				<p:column headerText="Tipo">
+					<h:outputText value="#{apart.tipo}" />
+				</p:column>
+				<p:column headerText="Cama">
+					<h:outputText value="#{apart.cama}" />
+				</p:column>
+				<p:column headerText="Valor">
+					<h:outputText value="#{apart.valor}" >
+					<f:convertNumber pattern="¤ #,##0.00"/>
+					</h:outputText>
+				</p:column>
+
+			</p:dataTable>
+
+		</div>
+	</ui:define>
+
+</ui:composition>

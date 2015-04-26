@@ -1,0 +1,72 @@
+<ui:composition template="/template/layoutExterno.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">Hotel</ui:define>
+
+	<ui:define name="menu_interno">
+		<ui:include src="/template/menuPublico.xhtml" />
+	</ui:define>
+
+	<ui:define name="corpo">
+		<f:view contentType="text/html">
+			<f:metadata>
+				<o:viewParam name="hospede"
+					value="#{cadastroHospedeBean.hospede.id}" />
+			</f:metadata>
+			<h:form role="form" id="form">
+				<p:panel header="Alteração de Senha" id="panel">
+					<p:focus context="panel" />
+					<p:growl id="messages" showDetail="false" autoUpdate="true"
+						closable="true" />
+
+					<p:panelGrid columns="2" id="grid" styleClass="table-responsive">
+
+						<p:outputLabel value="CPF:" for="cpf" />
+						<p:inputMask id="cpf" value="#{cadastroHospedeBean.hospede.cpf}"
+							mask="999.999.999-99" required="true"
+							requiredMessage="É obrigatorio a digitação do CPF">
+							<f:validateLength maximum="14" for="cpf" />
+						</p:inputMask>
+
+						<p:outputLabel value="E-mail" for="email" />
+						<p:inputText id="email" required="true"
+							value="#{cadastroHospedeBean.hospede.email}"
+							requiredMessage="É necessário informar o seu E-mail"
+							validatorMessage="O seu e-mail não é válido">
+							<f:validateRegex
+								pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+						</p:inputText>
+
+						<p:outputLabel value="Senha:" for="senha" />
+						<p:password id="senha"
+							value="#{cadastroHospedeBean.hospede.senha}" feedback="false"
+							match="confirmaSenha" required="true"
+							requiredMessage="Insira sua senha" size="8" maxlength="20"
+							validatorMessage="O tamanho da sua senha precisar ser entre 5 e 20 caracteres ou não coincidem">
+							<f:validateLength maximum="20" minimum="5" />
+						</p:password>
+
+						<p:outputLabel value="Confirmar a Senha:" for="confirmaSenha" />
+						<p:password id="confirmaSenha"
+							value="#{cadastroHospedeBean.hospede.senha}" required="true"
+							requiredMessage="Confirme sua senha" size="8" maxlength="20" />
+
+						<p:outputLabel value="Código de Segurança:" />
+						<p:captcha label="Captcha" theme="blackglass"/>
+						<p:outputLabel/>
+						<p:commandButton value="Salvar" update=":form" ajax="false"
+							validateClient="true" icon="ui-icon-disk"
+							action="#" />
+					</p:panelGrid>
+					
+					
+				</p:panel>
+			</h:form>
+		</f:view>
+	</ui:define>
+
+</ui:composition>

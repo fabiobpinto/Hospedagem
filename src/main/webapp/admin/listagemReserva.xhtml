@@ -1,0 +1,130 @@
+<ui:composition template="/template/layoutExterno.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Hotel</ui:define>
+
+	<ui:define name="menu_interno">
+		<ui:include src="/template/menuAdmin.xhtml" />
+	</ui:define>
+
+	<ui:define name="corpo">
+		<p:panel header="Listagem de Reservas" id="panel">
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:commandButton value="Novo" id="botaoNovo"
+						action="cadastroReserva.xhtml" />
+				</p:toolbarGroup>
+			</p:toolbar>
+			<h:form id="form">
+				<p:growl id="msg" showDetail="true" autoUpdate="true" />
+				<p:dataTable widgetVar="dataTableWidgetVar" id="tabelaReserva"
+					var="reserva" value="#{pesquisaReservaBean.reservas}"
+					editable="true" paginator="true" rows="5" rowKey="#{reserva.id}"
+					cellspacing="0" cellpadding="2"
+					emptyMessage="Nenhuma Reserva encontrada!"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,20,30,40,50,100" sortBy="#{reserva.id}">
+					<f:facet name="header">
+Lista de Reservas
+</f:facet>
+					<p:column headerText="Id.">
+						<h:outputText value="#{reserva.id}" id="id" />
+					</p:column>
+					<p:column headerText="Hospede">
+						<h:outputText value="#{reserva.hospede.nome}" id="hospede" />
+					</p:column>
+					<p:column headerText="Apart.">
+						<h:outputText value="#{reserva.apartamento.numero}" id="apartamento" />
+					</p:column>
+					<p:column headerText="Entrada">
+						<h:outputText value="#{reserva.dataEntrada}" id="entrada">
+							<f:convertDateTime pattern="dd/MM/yyyy - hh:mm" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Saida">
+						<h:outputText value="#{reserva.dataSaida}" id="saida">
+							<f:convertDateTime pattern="dd/MM/yyyy - hh:mm" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Observação">
+						<h:outputText value="#{reserva.observacao}" id="observacao" />
+					</p:column>
+					<p:column headerText="Valor" sortBy="#{reserva.valor}">
+						<h:outputText value="#{reserva.valor}">
+							<f:convertNumber pattern="¤ #,##0.00" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Status">
+						<h:outputText value="#{reserva.status} " id="status" />
+						<p:graphicImage library="images" name="#{reserva.status}.png" />
+					</p:column>
+					<p:column headerText="Ação" exportable="false">
+
+						<p:button outcome="cadastroReserva" icon="ui-icon-pencil"
+							title="Editar">
+							<f:param name="reserva" value="#{reserva.id}" />
+						</p:button>
+
+						<p:commandButton icon="ui-icon-trash" title="Excluir"
+							oncomplete="confirmacaoExclusao.show()" process="@this"
+							update=":form:tabelaReserva"
+							action="#{pesquisaReservaBean.excluir()}">
+							<p:confirm header="Exclusão de Reserva"
+								message="Deseja excluir a Reserva ?" icon="ui-icon-alert" />
+							<f:setPropertyActionListener
+								target="#{pesquisaReservaBean.reservaSelecionada}"
+								value="#{reserva}" />
+						</p:commandButton>
+					</p:column>
+
+					<f:facet name="footer">
+Existem #{pesquisaReservaBean.reservas.size()} reservas Cadastradas.
+
+<p:separator />
+
+
+												<p:commandLink ajax="false">
+													<p:graphicImage library="images" name="pdf.png"
+														title="Gerar em PDF" />
+													<p:dataExporter type="pdf" target="tabelaReserva" encoding="UTF-8"
+														fileName="reservas" />
+												</p:commandLink>
+												<p:commandLink ajax="false">
+													<p:graphicImage library="images" name="csv.png"
+														title="Gerar em CSV" />
+													<p:dataExporter type="csv" target="tabelaReserva" encoding="UTF-8"
+														fileName="reservas" />
+												</p:commandLink>
+												<p:commandLink ajax="false">
+													<p:graphicImage library="images" name="excel.png"
+														title="Gerar em Excel" />
+													<p:dataExporter type="xls" target="tabelaReserva" encoding="UTF-8"
+														fileName="reservas" />
+												</p:commandLink>
+
+
+
+					</f:facet>
+				</p:dataTable>
+
+								<p:confirmDialog global="true" showEffect="fade"
+									widgetVar="confirmacaoExclusao">
+									<p:commandButton value="Sim" type="button"
+										onclick="confirmacaoExclusao.hide()"
+										styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
+										update=":form:tabelaReservas" />
+									<p:commandButton value="Não" type="button"
+										styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+								</p:confirmDialog>
+
+			</h:form>
+		</p:panel>
+
+
+	</ui:define>
+
+</ui:composition>

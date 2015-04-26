@@ -1,0 +1,36 @@
+<ui:composition template="/template/layoutExterno.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Hotel</ui:define>
+
+	<ui:define name="menu_interno">
+		<ui:include src="/template/menuPublico.xhtml" />
+	</ui:define>
+
+	<ui:define name="corpo">
+
+		<p:dialog header="Login" visible="true" closable="false"
+			draggable="false" resizable="false" width="420">
+			<center>
+				<h:outputText value="Usuário ou senha incorretos!"
+					rendered="#{!empty param.login_error}" style="color: red" />
+			</center>
+			<form action="#{request.contextPath}/j_spring_security_check"
+				method="post" >
+				<h:panelGrid columns="2" cellpadding="5">
+					<h:outputLabel for="j_username" value="E-mail: *" />
+					<h:inputText id="j_username" required="true" />
+					<h:outputLabel for="j_password" value="Senha: * " />
+					<h:inputSecret id="j_password" required="true" />
+					<h:commandButton class="btn btn-primary" value="Login" />
+				</h:panelGrid>
+			</form>
+		</p:dialog>
+
+	</ui:define>
+<ui:define name= "rodape"></ui:define>
+</ui:composition>

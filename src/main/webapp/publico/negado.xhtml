@@ -1,0 +1,24 @@
+<ui:composition template="/template/layoutExterno.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Hotel</ui:define>
+
+	<ui:define name="menu_interno">
+		<ui:include src="/template/menuPublico.xhtml" />
+	</ui:define>
+
+	<ui:define name="corpo">
+
+		<div id="login-dialog">
+<p align="center">
+<h1>Acesso Negado!</h1>
+<p:button href="#{request.contextPath}/j_spring_security_logout" value="Voltar"></p:button>
+</p>
+</div>
+	</ui:define>
+
+</ui:composition>

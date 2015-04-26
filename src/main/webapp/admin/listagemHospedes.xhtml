@@ -1,0 +1,200 @@
+<ui:composition template="/template/layoutExterno.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Hotel</ui:define>
+
+	<ui:define name="menu_interno">
+		<ui:include src="/template/menuAdmin.xhtml" />
+	</ui:define>
+
+	<ui:define name="corpo">
+		<p:panel header="Listagem de Hospedes" id="panel">
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:commandButton value="Novo" id="botaoNovo"
+						action="cadastroHospede.xhtml" />
+				</p:toolbarGroup>
+			</p:toolbar>
+			<h:form id="form">
+
+				<p:growl id="msgs" showDetail="true" />
+
+				<p:dataTable id="tabelaHospede" var="hospede"
+					sortBy="#{hospede.nome}" widgetVar="tabelaHospede"
+					value="#{pesquisaHospedeBean.hospedes}" paginator="true" rows="5"
+					rowKey="#{hospede.id}" emptyMessage="Nenhum Hospede encontrado!"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,20,30,40,50,100">
+					<f:facet name="header">
+Lista de Hospedes
+</f:facet>
+
+					<p:column headerText="Id" sortBy="#{hospede.id}">
+						<h:outputText value="#{hospede.id}" />
+					</p:column>
+					<p:column headerText="Nome" sortBy="#{hospede.nome}"
+						filterBy="#{hospede.nome}" filterMatchMode="contains">
+						<h:outputText value="#{hospede.nome}" />
+					</p:column>
+					<p:column headerText="E-mail" sortBy="#{hospede.email}">
+						<h:outputText value="#{hospede.email}" />
+					</p:column>
+					<p:column headerText="CPF" filterBy="#{hospede.cpf}"
+						filterMatchMode="contains">
+						<h:outputText value="#{hospede.cpf}" />
+					</p:column>
+
+					<p:column style="width:145px;text-align: center" headerText="Ação"
+						exportable="false">
+
+						<p:commandButton update=":form:detalheHospede"
+							oncomplete="PF('hospedeDialog').show()" icon="ui-icon-search"
+							title="Visualizar">
+							<f:setPropertyActionListener value="#{hospede}"
+								target="#{pesquisaHospedeBean.hospedeSelecionado}" />
+						</p:commandButton>
+
+						<p:commandButton type="button" title="Imprimir"
+							icon="ui-icon-print">
+							<p:printer value="#{hospede}"
+								target="#{pesquisaHospedeBean.hospedeSelecionado}"/> 
+						</p:commandButton>
+
+
+						<p:button outcome="alteraHospede.xhtml" icon="ui-icon-pencil"
+							title="Editar">
+							<f:param name="hospede" value="#{hospede.id}" />
+						</p:button>
+
+						<p:commandButton icon="ui-icon-trash" title="Excluir"
+							oncomplete="confirmacaoExclusao.show()" process="@this"
+							update=":form:tabelaHospede"
+							action="#{pesquisaHospedeBean.excluir()}">
+							<p:confirm header="Exclusão de Hospede"
+								message="Deseja excluir o Hospede ?" icon="ui-icon-alert" />
+							<f:setPropertyActionListener
+								target="#{pesquisaHospedeBean.hospedeSelecionado}"
+								value="#{hospede}" />
+						</p:commandButton>
+
+					</p:column>
+
+
+					<f:facet name="footer">
+Existem #{pesquisaHospedeBean.hospedes.size()} hospedes cadastrados.
+<p:separator />
+						<p:commandLink ajax="false">
+							<p:graphicImage library="images" name="pdf.png"
+								title="Gerar em PDF" />
+							<p:dataExporter type="pdf" target="tabelaHospede"
+								encoding="UTF-8" fileName="hospedes" />
+						</p:commandLink>
+
+						<p:commandLink ajax="false">
+							<p:graphicImage library="images" name="csv.png"
+								title="Gerar em CSV" />
+							<p:dataExporter type="csv" target="tabelaHospede"
+								encoding="UTF-8" fileName="hospedes" />
+						</p:commandLink>
+						
+						<p:commandLink ajax="false">
+							<p:graphicImage library="images" name="excel.png"
+								title="Gerar em Excel" />
+							<p:dataExporter type="xls" target="tabelaHospede"
+								encoding="UTF-8" fileName="hospedes" />
+						</p:commandLink>
+
+					</f:facet>
+				</p:dataTable>
+
+
+				<p:confirmDialog global="true" showEffect="fade"
+					widgetVar="confirmacaoExclusao">
+					<p:commandButton value="Sim" type="button"
+						onclick="confirmacaoExclusao.hide()"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
+						update=":form:tabelaHospede" />
+					<p:commandButton value="Não" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+
+
+
+				<p:dialog header="Informação do Hospede" widgetVar="hospedeDialog"
+					modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+					<p:outputPanel id="detalheHospede" style="text-align:center;">
+						<p:panelGrid columns="4"
+							rendered="#{not empty pesquisaHospedeBean.hospedeSelecionado}">
+							<f:facet name="header">
+								<p:graphicImage library="images" name="logo.png"
+									styleClass="content" />
+							</f:facet>
+
+							<h:outputText value="Id:" />
+							<h:outputText
+								value="#{pesquisaHospedeBean.hospedeSelecionado.id}" />
+
+							<h:outputText value="Nome:" />
+							<h:outputText
+								value="#{pesquisaHospedeBean.hospedeSelecionado.nome}" />
+							<h:outputText value="Data Nasc."
+								sortBy="#{pesquisaHospedeBean.hospedeSelecionado.dataNascimento}" />
+							<h:outputText
+								value="#{pesquisaHospedeBean.hospedeSelecionado.dataNascimento}">
+								<f:convertDateTime pattern="dd/MM/YYYY" />
+							</h:outputText>
+							<h:outputText value="Sexo" />
+							<h:outputText
+								value="#{pesquisaHospedeBean.hospedeSelecionado.sexo}" />
+							<h:outputText value="CPF" />
+							<h:outputText
+								value="#{pesquisaHospedeBean.hospedeSelecionado.cpf}" />
+							<h:outputText value="RG" />
+							<h:outputText
+								value="#{pesquisaHospedeBean.hospedeSelecionado.rg}" />
+							<h:outputText value="Observação" />
+							<h:outputText
+								value="#{pesquisaHospedeBean.hospedeSelecionado.observacao}" />
+							<h:outputText value="Telefone" />
+							<h:outputText
+								value="#{pesquisaHospedeBean.hospedeSelecionado.telefone}" />
+							<h:outputText value="e-mail" />
+							<h:outputText
+								value="#{pesquisaHospedeBean.hospedeSelecionado.email}" />
+							<h:outputText value="Endereço" />
+							<h:outputText
+								value="#{pesquisaHospedeBean.hospedeSelecionado.endereco}" />
+							<h:outputText value="Bairro" />
+							<h:outputText
+								value="#{pesquisaHospedeBean.hospedeSelecionado.bairro}" />
+							<h:outputText value="Cidade" />
+							<h:outputText
+								value="#{pesquisaHospedeBean.hospedeSelecionado.cidade}" />
+							<h:outputText value="CEP" />
+							<h:outputText
+								value="#{pesquisaHospedeBean.hospedeSelecionado.cep}" />
+							<h:outputText value="Estado" />
+							<h:outputText
+								value="#{pesquisaHospedeBean.hospedeSelecionado.estado}" />
+							<h:outputText value="Ativo" />
+							<p:graphicImage library="images"
+								name="usuario_ativo_#{pesquisaHospedeBean.hospedeSelecionado.ativo}.png" />
+							<p:commandButton type="button" title="Imprimir"
+								icon="ui-icon-print">
+								<p:printer target="detalheHospede" />
+							</p:commandButton>
+						</p:panelGrid>
+					</p:outputPanel>
+				</p:dialog>
+
+
+
+			</h:form>
+		</p:panel>
+	</ui:define>
+
+</ui:composition>

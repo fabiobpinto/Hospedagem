@@ -1,0 +1,82 @@
+<ui:composition template="/template/layoutExterno.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">Hotel</ui:define>
+
+	<ui:define name="menu_interno">
+		<ui:include src="/template/menuAdmin.xhtml" />
+	</ui:define>
+
+	<ui:define name="corpo">
+		<f:view contentType="text/html">
+			<f:metadata>
+				<o:viewParam name="apartamento"
+					value="#{cadastroApartamentoBean.apartamento}" />
+			</f:metadata>
+			<h:form id="form">
+
+				<p:panel header="Cadastro de Apartamento" id="panel">
+					<p:focus context="panel" />
+					<p:growl id="messages" showDetail="false" autoUpdate="true"
+						closable="true" />
+
+					<p:toolbar style="margin-top: 20px">
+						<p:toolbarGroup align="right">
+							<p:button value="Pesquisa" outcome="listagemApartamento.xhtml" icon="ui-icon-search" />
+						</p:toolbarGroup>
+					</p:toolbar>
+
+
+					<p:panelGrid columns="2" id="painel" styleClass="table-responsive"
+						columnClasses="rotulo, campo">
+						<p:outputLabel value="Id.:" />
+						<p:inputText value="#{cadastroApartamentoBean.apartamento.id}"
+							readonly="true" disabled="true" id="id" />
+						<p:outputLabel value="Numero:" for="numero" />
+						<p:inputText value="#{cadastroApartamentoBean.apartamento.numero}"
+							required="true" id="numero"
+							requiredMessage="Precisa inserir o numero do Apartamento">
+							<!-- 							<f:validateLongRange minimum="1" maximum="999" /> -->
+						</p:inputText>
+						<p:outputLabel value="Tipo" for="tipo" />
+						<h:selectOneMenu
+							value="#{cadastroApartamentoBean.apartamento.tipo}"
+							class="form-control" id="tipo">
+							<f:selectItem itemValue="" itemLabel="Selecione" />
+							<f:selectItem itemValue="Suíte" itemLabel="Suíte" />
+							<f:selectItem itemValue="Duplo" itemLabel="Duplo" />
+							<f:selectItem itemValue="Luxo" itemLabel="Luxo" />
+							<f:selectItem itemValue="Simples" itemLabel="Simples" />
+							<f:selectItem itemValue="Premium" itemLabel="Premium" />
+						</h:selectOneMenu>
+						<p:outputLabel value="Cama" for="cama" />
+						<h:selectOneMenu
+							value="#{cadastroApartamentoBean.apartamento.cama}"
+							class="form-control" id="cama">
+							<f:selectItem itemValue="" itemLabel="Selecione" />
+							<f:selectItem itemValue="Solteiro" itemLabel="Solteiro" />
+							<f:selectItem itemValue="Casal" itemLabel="Casal" />
+						</h:selectOneMenu>
+
+						<p:outputLabel value="Valor:" for="valor" />
+						<p:inputText value="#{cadastroApartamentoBean.apartamento.valor}"
+							id="valor" required="true" requiredMessage="É obrigatorio a digitação do Valor">
+							<f:convertNumber type="currency" currencySymbol="R$" />
+							<f:validateDoubleRange minimum="0.01" />
+						</p:inputText>
+						<p:outputLabel value="" />
+						<p:commandButton value="Salvar" update=":form"
+							validateClient="true" icon="ui-icon-disk"
+							action="#{cadastroApartamentoBean.salvar()}" />
+					</p:panelGrid>
+				</p:panel>
+			</h:form>
+
+		</f:view>
+	</ui:define>
+
+</ui:composition>

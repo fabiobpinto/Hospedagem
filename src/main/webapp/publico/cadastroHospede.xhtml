@@ -1,0 +1,136 @@
+<ui:composition template="/template/layoutExterno.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+	<ui:define name="titulo">Hotel</ui:define>
+	<ui:define name="menu_interno">
+		<ui:include src="/template/menuPublico.xhtml" />
+	</ui:define>
+	<ui:define name="corpo">
+		<f:view contentType="text/html">
+			<f:metadata>
+				<o:viewParam name="hospede"
+					value="#{cadastroHospedeBean.hospede.id}" />
+			</f:metadata>
+			<h:form role="form" id="form">
+				<p:panel header="Cadastro de Hospede" id="panel">
+					<p:focus context="panel" />
+					<p:growl id="messages" showDetail="false" autoUpdate="true"
+						closable="true" />
+					<p:panelGrid columns="4" id="grid" styleClass="table-responsive">
+						<p:outputLabel value="Nome:" for="nome" />
+						<p:inputText value="#{cadastroHospedeBean.hospede.nome}"
+							required="true" id="nome" onclick="this.value = '';"
+							requiredMessage="Precisa inserir o seu nome" />
+						<p:outputLabel value="Data de nascimento" for="dataNascimento" />
+						<p:calendar id="dataNascimento" locale="pt_BR"
+							value="#{cadastroHospedeBean.hospede.dataNascimento}"
+							pattern="dd/MM/yyyy" navigator="true" showOn="button"
+							mode="popup" popupIconOnly="true" 
+							yearRange="-111:+0" required="true" mask="99/99/9999"
+							maxdate="#{dateBean.maxdate}"
+							requiredMessage="É necessário informar a Data de Nascimento do Hospede" />
+						<p:outputLabel value="Sexo:" for="sexo" />
+						<p:selectOneButton id="sexo"
+							value="#{cadastroHospedeBean.hospede.sexo}">
+							<f:selectItem itemValue="M" itemLabel="Masculino" />
+							<f:selectItem itemValue="F" itemLabel="Feminino" />
+						</p:selectOneButton>
+						<p:outputLabel value="CPF:" for="cpf" />
+						<p:inputMask id="cpf" value="#{cadastroHospedeBean.hospede.cpf}"
+							mask="999.999.999-99" required="true"
+							requiredMessage="É obrigatorio a digitação do CPF">
+							<f:validateLength maximum="14" for="cpf" />
+						</p:inputMask>
+						<p:outputLabel value="RG:" for="rg" />
+						<p:inputMask id="rg" value="#{cadastroHospedeBean.hospede.rg}"
+							required="true" requiredMessage="É obrigatorio a digitação do RG">
+						</p:inputMask>
+						<p:outputLabel value="Observação:" for="observacao" />
+						<p:inputTextarea id="observacao"
+							value="#{cadastroHospedeBean.hospede.observacao}" cols="25"
+							rows="5" autoResize="false" />
+						<p:outputLabel value="Tel:" for="tel" />
+						<p:inputMask id="tel" value="#{cadastroHospedeBean.hospede.telefone}"
+							required="true" requiredMessage="É obrigatorio a digitação do Telefone" mask="(99)9999-9999">
+						</p:inputMask>
+						<p:outputLabel value="E-mail" for="email" />
+						<p:inputText id="email" required="true"
+							value="#{cadastroHospedeBean.hospede.email}"
+							requiredMessage="É necessário informar o seu E-mail"
+							validatorMessage="O seu e-mail não é válido">
+							<f:validateRegex
+								pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+						</p:inputText>
+						<p:outputLabel value="Senha:" for="senha" />
+						<p:password id="senha"
+							value="#{cadastroHospedeBean.hospede.senha}" feedback="false"
+							match="confirmaSenha" required="true"
+							requiredMessage="Insira sua senha" size="8" maxlength="20"
+							validatorMessage="O tamanho da sua senha precisar ser entre 5 e 20 caracteres ou não coincidem">
+							<f:validateLength maximum="20" minimum="5" />
+						</p:password>
+						<p:outputLabel value="Confirmar a Senha:" for="confirmaSenha" />
+						<p:password id="confirmaSenha"
+							value="#{cadastroHospedeBean.hospede.senha}" required="true"
+							requiredMessage="Confirme sua senha" size="8" maxlength="20" />
+						<p:outputLabel value="Estado:" for="estado" />
+						<h:selectOneMenu value="#{cadastroHospedeBean.hospede.estado}"
+							class="form-control" id="estado">
+							<f:selectItem itemValue="" itemLabel="Selecione" />
+							<f:selectItem itemValue="AC" itemLabel="Acre" />
+							<f:selectItem itemValue="AL" itemLabel="Alagoas" />
+							<f:selectItem itemValue="AM" itemLabel="Amazonas" />
+							<f:selectItem itemValue="AP" itemLabel="Amapá" />
+							<f:selectItem itemValue="BA" itemLabel="Bahia" />
+							<f:selectItem itemValue="CE" itemLabel="Ceará" />
+							<f:selectItem itemValue="DF" itemLabel="Distrito Federal" />
+							<f:selectItem itemValue="ES" itemLabel="Espirito Santo" />
+							<f:selectItem itemValue="GO" itemLabel="Goiás" />
+							<f:selectItem itemValue="MA" itemLabel="Maranhão" />
+							<f:selectItem itemValue="MG" itemLabel="Minas Gerais" />
+							<f:selectItem itemValue="MS" itemLabel="Mato Grosso do Sul" />
+							<f:selectItem itemValue="MT" itemLabel="Mato Grosso" />
+							<f:selectItem itemValue="PA" itemLabel="Pará" />
+							<f:selectItem itemValue="PB" itemLabel="Paraíba" />
+							<f:selectItem itemValue="PE" itemLabel="Pernambuco" />
+							<f:selectItem itemValue="PI" itemLabel="Piauí" />
+							<f:selectItem itemValue="PR" itemLabel="Paraná" />
+							<f:selectItem itemValue="RJ" itemLabel="Rio de Janeiro" />
+							<f:selectItem itemValue="RN" itemLabel="Rio Grande do Norte" />
+							<f:selectItem itemValue="RO" itemLabel="Rondônia" />
+							<f:selectItem itemValue="RR" itemLabel="Roraima" />
+							<f:selectItem itemValue="RS" itemLabel="Rio Grande do Sul" />
+							<f:selectItem itemValue="SC" itemLabel="Santa Catarina" />
+							<f:selectItem itemValue="SE" itemLabel="Sergipe" />
+							<f:selectItem itemValue="SP" itemLabel="São Paulo" />
+							<f:selectItem itemValue="TO" itemLabel="Tocantins" />
+						</h:selectOneMenu>
+						<p:outputLabel value="Cidade:" for="cidade" />
+						<p:inputText id="cidade"
+							value="#{cadastroHospedeBean.hospede.cidade}" />
+						<p:outputLabel value="Endereço:" for="endereco" />
+						<p:inputText id="endereco"
+							value="#{cadastroHospedeBean.hospede.endereco}" />
+						<p:outputLabel value="Bairro:" for="bairro" />
+						<p:inputText id="bairro"
+							value="#{cadastroHospedeBean.hospede.bairro}" />
+						<p:outputLabel value="CEP:" for="cep" />
+						<p:inputMask id="cep" mask="99.999-999"
+							value="#{cadastroHospedeBean.hospede.cep}" />
+						<p:outputLabel value="Código de Segurança:" />
+						<p:captcha label="Captcha" theme="blackglass"/>
+						<p:outputLabel/>
+						<p:outputLabel/>
+						<p:outputLabel/>
+						<p:commandButton value="Salvar" update=":form"
+							validateClient="true" icon="ui-icon-disk" ajax="false"
+							action="#{cadastroHospedeBean.salvar()}" />
+					</p:panelGrid>
+				</p:panel>
+			</h:form>
+		</f:view>
+	</ui:define>
+</ui:composition>

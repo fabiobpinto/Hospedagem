@@ -1,0 +1,18 @@
+@charset "utf-8";
+
+#rodape {
+	heigth: 100px;
+	padding: 10px;
+	text-align: center;
+	border-top: 1px solid #ccc;
+	margin-top: 20px;
+	margin-bottom: 10px
+}
+
+.ajax-status {
+	position: fixed;
+	top: 55px;
+	right: 10px;
+	width: 35px;
+	height: 35px
+}

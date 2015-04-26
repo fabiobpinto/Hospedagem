@@ -1,0 +1,23 @@
+<ui:composition template="/template/layoutExterno.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Hotel</ui:define>
+
+	<ui:define name="menu_interno">
+		<ui:include src="/template/menuPublico.xhtml" />
+	</ui:define>
+
+	<ui:define name="corpo">
+		<p:contentFlow value="#{imagesView.images}" var="image"
+			style="height: 200px">
+			<p:graphicImage library="images/slide/" name="#{image}"
+				styleClass="content" />
+			<div class="caption">#{image}</div>
+		</p:contentFlow>
+	</ui:define>
+
+</ui:composition>

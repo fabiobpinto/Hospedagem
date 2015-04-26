@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags">
+
+<ui:composition>
+	<h:head>
+		<title>Hotel</title>
+		<h:outputStylesheet library="css" name="bootstrap.css" />
+		<h:outputScript library="js" name="bootstrap.js" />
+		<h:outputScript library="js" name="bootstrap.min.js" />
+		<h:outputScript library="js" name="locale-primefaces.js" />
+	</h:head>
+	<div>
+		<nav class="navbar navbar-inverse" role="navigation">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-9">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="">Hotel</a>
+			</div>
+			<div class="navbar-collapse collapse"
+				id="bs-example-navbar-collapse-9" style="height: 1px;">
+				<ul class="nav navbar-nav ">
+					<sec:ifAnyGranted roles="ROLE_USER">
+					<li><a href="../restrito/meusDados.xhtml">Meus Dados</a></li>
+					<li><a href="../restrito/minhasReservas.xhtml">Minhas Reservas</a></li>
+					<li><a href="#{request.contextPath}/j_spring_security_logout">Sair</a></li>
+					</sec:ifAnyGranted>
+					<sec:ifAnyGranted roles="ROLE_ADMIN">
+						<li><a href="../admin/listagemApartamento.xhtml">Apartamentos</a></li>
+						<li><a href="../admin/listagemHospedes.xhtml">Hospedes</a></li>
+						<li><a href="../admin/listagemReserva.xhtml">Reservas</a></li>
+						<li><a href="../admin/relatorios.xhtml">Relatórios</a></li>
+						<li><a href="#{request.contextPath}/j_spring_security_logout">Sair</a></li>
+					</sec:ifAnyGranted>
+					
+				</ul>
+			</div>
+		</nav>
+	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true"></button>
+					<h4 class="modal-title" id="myModalLabel">Login</h4>
+				</div>
+				<div class="modal-body">
+					E-mail
+					<p:inputText />
+					<br></br> Senha
+					<p:inputText />
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+					<button type="button" class="btn btn-primary">Entrar</button>
+					<p:separator />
+
+					<h:link>
+						<a href="/Unopar/publico/cadastroUsuario.xhtml" target="_self">Cadastrar-se
+						</a>
+					</h:link>
+					<br />
+					<h:link>Esqueci minha senha</h:link>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+</ui:composition>
+
+</html>

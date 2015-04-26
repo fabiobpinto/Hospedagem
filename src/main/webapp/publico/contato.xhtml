@@ -1,0 +1,62 @@
+<ui:composition template="/template/layoutExterno.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Hotel</ui:define>
+
+	<ui:define name="menu_interno">
+		<ui:include src="/template/menuPublico.xhtml" />
+	</ui:define>
+
+	<ui:define name="corpo">
+		<script src="http://maps.google.com/maps/api/js?sensor=true|false"
+			type="text/javascript"></script>
+
+		<div class="container">
+			<div class="row clearfix">
+				<div class="col-md-12 column">
+					<h1>Contato</h1>
+					<h2>Hotel</h2>
+					<p:graphicImage library="images" name="icoEndereco.png" />
+					<p>Endereço: Rua das Ostras, Nº 115</p>
+					<p>Bairro: Centro</p>
+					<p>Cidade: Belo Horizonte</p>
+					<p>CEP: 99.999-999</p>
+					<p>Estado: Minas Gerais</p>
+					<p>
+						<p:graphicImage library="images" name="icoTel.png" />
+						Telefone: <a  href='tel://3591194611'>(35) 9119-4611</a>
+					</p>
+					<p>
+						<p:graphicImage library="images" name="icoEmail.png" />
+						E-mail: <a  href='mailto:fabiobp2000@bol.com.br'>fabiobp2000@bol.com.br</a>
+					</p>
+					<p>
+						<p:graphicImage library="images" name="icoSkype.png" />
+						Skype: fabio.brito.pinto
+					</p>
+					<a href="https://www.facebook.com/" target="_blanck"><p:graphicImage
+							library="images" name="icoFace.png" /></a> <a href=""></a> <a
+						href="https://www.linkedin.com/in/fabiobritopinto"
+						target="_blanck"><p:graphicImage library="images"
+							name="icoLinkedin.png" /></a> <a
+						href="https://www.youtube.com/user/fbpweb1" target="_blanck"><p:graphicImage
+							library="images" name="icoYoutube.png" /></a>
+
+
+
+
+					<p:separator />
+
+					<p:gmap center="-23.221576, -45.889795" zoom="15" type="HYBRID"
+						style="width:400px; height:400px" />
+				</div>
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

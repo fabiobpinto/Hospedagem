@@ -1,0 +1,24 @@
+<ui:composition template="/template/layoutExterno.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/facelets/tags">
+
+	<ui:define name="titulo">Hotel</ui:define>
+
+	<ui:define name="menu_interno">
+		<ui:include src="/template/menuRestrito.xhtml" />
+		
+	</ui:define>
+
+	<ui:define name="corpo">
+		<h1>Olá #{request.remoteUser}!</h1>
+		<sec:ifAnyGranted roles="ROLE_USER">
+		<p>Ao efetuar pré-reservas o hospede está concordando com o termo abaixo:</p> 
+ 		<a href="../resources/doc/termo.pdf" class="btn btn-primary" role="button" target="_blanck">Termo de Cancelamento do Hotel</a>
+ 		</sec:ifAnyGranted> 
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,129 @@
+<ui:composition template="/template/layoutExterno.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">Hotel</ui:define>
+
+	<ui:define name="menu_interno">
+		<ui:include src="/template/menuAdmin.xhtml" />
+	</ui:define>
+
+	<ui:define name="corpo">
+		<f:view contentType="text/html">
+			<f:metadata>
+				<o:viewParam name="reserva" value="#{cadastroReservaBean.reserva}" />
+			</f:metadata>
+			<h:form id="form">
+
+				<p:panel header="Cadastro de Reservas" id="panel">
+					<p:focus context="panel" />
+					<p:growl id="messages" showDetail="false" autoUpdate="true"
+						closable="true" />
+
+					<p:toolbar style="margin-top: 20px">
+						<p:toolbarGroup align="right">
+							<p:button value="Pesquisa" outcome="listagemReserva.xhtml"
+								icon="ui-icon-search" />
+						</p:toolbarGroup>
+					</p:toolbar>
+
+					<p:panelGrid columns="4" id="painel" styleClass="table-responsive"
+						columnClasses="rotulo, campo">
+						<p:outputLabel value="Id.:" />
+						<p:inputText value="#{cadastroReservaBean.reserva.id}"
+							readonly="true" disabled="true" id="id" />
+
+						<p:outputLabel value="Data do Check-in" for="dataEntrada" />
+						<p:calendar id="dataEntrada"
+							value="#{cadastroReservaBean.reserva.dataEntrada}"
+							pattern="dd/MM/yyyy HH:mm" navigator="true" showOn="button"
+							mode="popup" popupIconOnly="true" locale="pt_BR" required="true"
+							mask="99/99/9999 99:99" stepMinute="10"
+							requiredMessage="É necessário informar a Data de Check-in do Hospede" />
+
+						<p:outputLabel value="Data de Check-out" for="dataSaida" />
+						<p:calendar id="dataSaida"
+							value="#{cadastroReservaBean.reserva.dataSaida}"
+							pattern="dd/MM/yyyy HH:mm" navigator="true" showOn="button"
+							mode="popup" popupIconOnly="true" locale="pt_BR" required="true"
+							mask="99/99/9999 99:99" stepMinute="10"
+							requiredMessage="É necessário informar a Data de Check-out do Hospede" />
+
+						<p:outputLabel value="Apartamento" for="apartamento" />
+						<h:selectOneMenu id="apartamento" required="true" class="form-control"
+							requiredMessage="É preciso selecionar um apartamento"
+							value="#{cadastroReservaBean.reserva.apartamento}">
+							<f:selectItem itemLabel="Selecione o apartamento" />
+							<f:selectItems value="#{cadastroReservaBean.apartamentos}"
+								var="apartamento"
+								itemLabel="#{apartamento.numero}: #{apartamento.tipo}: #{apartamento.cama}: #{apartamento.valor}"
+								itemValue="#{apartamento}" />
+							<p:ajax event="change" update="valor" />
+						</h:selectOneMenu>
+						
+						<p:outputLabel value="Hospede" for="hospede" />
+						<h:selectOneMenu id="hospede" required="true" class="form-control"
+							requiredMessage="É preciso selecionar um hospede"
+							value="#{cadastroReservaBean.reserva.hospede}">
+							<f:selectItem itemLabel="Selecione o hospede" />
+							<f:selectItems value="#{cadastroReservaBean.hospedes}"
+								var="hospede"
+								itemLabel="#{hospede.nome}"
+								itemValue="#{hospede}" />
+						</h:selectOneMenu>
+
+						<p:outputLabel value="Observação:" for="observacao" />
+						<p:inputTextarea id="observacao"
+							value="#{cadastroReservaBean.reserva.observacao}" cols="25"
+							rows="5" autoResize="false" />
+
+						<p:outputLabel value="Status:" for="status" />
+						<h:selectOneMenu value="#{cadastroReservaBean.reserva.status}"
+							class="form-control" id="status">
+							<f:selectItem itemValue="" itemLabel="Selecione" />
+							<f:selectItem itemValue="Reservado" itemLabel="Reservado" />
+							<f:selectItem itemValue="Pré-reservado" itemLabel="Pré-reservado" />
+							<f:selectItem itemValue="Cancelado" itemLabel="Cancelado" />
+						</h:selectOneMenu>
+
+						<p:outputLabel value="Quantidade de Adultos:"
+							for="quantidadeAdultos" />
+						<p:spinner
+							value="#{cadastroReservaBean.reserva.quantidadeAdultos}"
+							id="quantidadeAdultos" min="1" required="true"
+							requiredMessage="É necessário informar a quantidade de adultos">
+							<p:ajax event="change" update="valor" />
+							 </p:spinner>
+
+						<p:outputLabel value="Quantidade de Crianças:"
+							for="quantidadeCriancas" />
+						<p:spinner
+							value="#{cadastroReservaBean.reserva.quantidadeCriancas}"
+							id="quantidadeCriancas" min="0" required="true"
+							requiredMessage="É necessário informar a quantidade de adultos" />
+
+						<p:outputLabel value="Valor:" for="valor" />
+						<p:inputText
+							value="#{cadastroReservaBean.reserva.valor}"
+							id="valor" required="true" 
+							requiredMessage="É obrigatorio a digitação do Valor">
+							<f:convertNumber type="currency" currencySymbol="R$"
+								pattern="¤ #,##0.00"  />
+							<f:validateDoubleRange minimum="0.01" />
+						</p:inputText>
+
+						<p:outputLabel value="" />
+						<p:commandButton value="Salvar" update=":form"
+							validateClient="true" icon="ui-icon-disk"
+							action="#{cadastroReservaBean.salvar()}" />
+					</p:panelGrid>
+				</p:panel>
+			</h:form>
+
+		</f:view>
+	</ui:define>
+
+</ui:composition>

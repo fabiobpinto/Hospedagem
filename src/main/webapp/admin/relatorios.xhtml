@@ -1,0 +1,56 @@
+<ui:composition template="/template/layoutExterno.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Hotel</ui:define>
+
+	<ui:define name="menu_interno">
+		<ui:include src="/template/menuAdmin.xhtml" />
+	</ui:define>
+
+	<ui:define name="corpo">
+		<p:panel header="Relatórios" id="panel">
+			<h:form>
+				<p:accordionPanel dynamic="true" cache="true" activeIndex="true">
+
+					<p:tab title="Apartamentos" closable="true"
+						titletip="Clique para abrir as opções">
+						<h:commandLink action="/publico/index">
+							<p:graphicImage library="images" name="excel.png"
+								title="Gerar em Excel" />
+						</h:commandLink>
+						<p:graphicImage library="images" name="html.png"
+							title="Gerar em HTML" />
+						<p:graphicImage library="images" name="pdf.png"
+							title="Gerar em PDF" />
+					</p:tab>
+
+					<p:tab title="Hospedes" closable="true"
+						titletip="Clique para abrir as opções">
+						<p:graphicImage library="images" name="excel.png"
+							title="Gerar em Excel" />
+						<p:graphicImage library="images" name="html.png"
+							title="Gerar em HTML" />
+						<p:graphicImage library="images" name="pdf.png"
+							title="Gerar em PDF" />
+					</p:tab>
+
+					<p:tab title="Reservas" closable="true"
+						titletip="Clique para abrir as opções">
+						<p:graphicImage library="images" name="excel.png"
+							title="Gerar em Excel" />
+						<p:graphicImage library="images" name="html.png"
+							title="Gerar em HTML" />
+						<p:graphicImage library="images" name="pdf.png"
+							title="Gerar em PDF" />
+					</p:tab>
+				</p:accordionPanel>
+			</h:form>
+
+		</p:panel>
+	</ui:define>
+
+</ui:composition>
